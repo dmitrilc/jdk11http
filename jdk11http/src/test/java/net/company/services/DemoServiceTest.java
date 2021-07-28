@@ -1,12 +1,10 @@
 package net.company.services;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.io.IOException;
 import org.junit.jupiter.api.Test;
-
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
-
 import net.company.pojos.CatFact;
 
 /**
@@ -19,27 +17,17 @@ public class DemoServiceTest {
 	private final DemoService service = new DemoService();
 	
 	/**
-	 * Hard-coded json String that can be converted into a CatFact object. Should move to use 
-	 * Properties file instead.
-	 */
-	private static final String json = "{\"fact\":\"A cat's nose is as unique as a human's fingerprint.\",\"length\":51}";
-	
-	/**
-	 * Tests the toCatFact method. Compares 2 different parsed {@code CatFact} objects.
-	 * Mainly attempts to catch for errors during parsing.
-	 * <p>
-	 * The first object is created from a json String.
-	 * <p>
-	 * The second object is created from a hard-coded constructor call.
-	 * @throws JsonMappingException parsing failed
-	 * @throws JsonProcessingException parsing failed
+	 * Tests the randomCatFact method.
+	 * @throws IOException if an error occured while sending the request
+	 * @throws InterruptedException if an illegal parameter was passed to theinternal HttpRequest builder.
 	 */
 	@Test
-	public void toCatFactTest() throws JsonMappingException, JsonProcessingException {
-		CatFact fact1 = new CatFact("A cat's nose is as unique as a human's fingerprint.", 51);
+	public void getRandomCatFactTest() throws IOException, InterruptedException {
+		int maxLength = 40;
 		
-		CatFact fact2 = this.service.toCatFact(json);
+		CatFact fact = this.service.getRandomCatFact(maxLength);
 		
-		assertEquals(fact1, fact2);
+		assertNotNull(fact.getFact()); //assert that the fact must not be empty
+		assertTrue(fact.getLength() <= maxLength); //assert that the length cannot be longer than maxLength
 	}
 }
