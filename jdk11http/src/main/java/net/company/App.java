@@ -1,9 +1,8 @@
 package net.company;
 
 import java.io.IOException;
-
-import net.company.controllers.DemoController;
 import net.company.pojos.CatFact;
+import net.company.services.DemoService;
 
 /**
  * The entry point to the application. Users must instantiate a DemoControler 
@@ -12,10 +11,10 @@ import net.company.pojos.CatFact;
  *
  */
 public class App {
-    public static void main(String[] args) throws IOException, InterruptedException {   	
-    	var controller = new DemoController();
+    public static void main(String[] args) throws IOException, InterruptedException {   	   	
+    	DemoService service = new DemoService();
     	
-    	CatFact catFact = controller.getRandomCatFact(40);
+    	CatFact catFact = service.getRandomCatFact(40);
     	
     	System.out.println(catFact);
     }
